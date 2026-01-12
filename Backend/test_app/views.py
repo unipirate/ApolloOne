@@ -11,13 +11,13 @@ from django.utils import timezone
 @csrf_exempt
 @require_http_methods(["GET"])
 def test_connection(request):
-    """Test endpoint to verify all connections are working"""
+    """Test endpoint to verify all connections are functioning"""
     try:
         # Test database connection
         connection.ensure_connection()
         db_status = "connected"
         
-        # Get some test data
+        # Retrieve some test data
         test_data = TestData.objects.filter(is_active=True).first()
         
         if test_data:
@@ -50,7 +50,7 @@ def test_connection(request):
 @csrf_exempt
 @require_http_methods(["GET"])
 def get_test_data(request):
-    """Get all test data from database"""
+    """Retrieve all test data from database"""
     try:
         test_data = TestData.objects.filter(is_active=True).order_by('-timestamp')[:10]
         
@@ -80,7 +80,7 @@ def get_test_data(request):
 @csrf_exempt
 @require_http_methods(["POST"])
 def create_test_data(request):
-    """Create new test data"""
+    """Generate new test data"""
     try:
         body = json.loads(request.body)
         message = body.get('message', 'Test message from API')
@@ -117,7 +117,7 @@ def create_test_data(request):
 @csrf_exempt
 @require_http_methods(["DELETE"])
 def clear_test_data(request):
-    """Clear all test data (for cleanup)"""
+    """Remove all test data (for cleanup)"""
     try:
         count = TestData.objects.filter(is_active=True).count()
         TestData.objects.filter(is_active=True).delete()
