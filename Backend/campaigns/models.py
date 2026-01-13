@@ -26,7 +26,7 @@ class CampaignStatus(models.TextChoices):
 
 class CampaignType(models.TextChoices):
     """
-    Types of advertising campaigns supported by the application
+    Types of advertising campaigns supported by the platform
     """
     DIGITAL_DISPLAY = 'digital_display', 'Digital Display'
     SOCIAL_MEDIA = 'social_media', 'Social Media'
@@ -50,7 +50,7 @@ class Campaign(models.Model):
     - Team assignments and ownership
     """
     
-    # Primary identifier
+    # Primary identification
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(
         max_length=200,
@@ -61,7 +61,7 @@ class Campaign(models.Model):
         help_text="Detailed description of the campaign objectives and strategy"
     )
     
-    # Campaign categorization
+    # Campaign classification
     campaign_type = models.CharField(
         max_length=20,
         choices=CampaignType.choices,
@@ -75,7 +75,7 @@ class Campaign(models.Model):
         help_text="Current status of the campaign"
     )
     
-    # Financial data
+    # Financial information
     budget = models.DecimalField(
         max_digits=12,
         decimal_places=2,
@@ -89,7 +89,7 @@ class Campaign(models.Model):
         help_text="Amount spent so far on the campaign"
     )
     
-    # Timeline and schedule
+    # Timeline and scheduling
     start_date = models.DateTimeField(
         help_text="When the campaign should start"
     )
@@ -99,7 +99,7 @@ class Campaign(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
-    # Team and ownership information
+    # Team and ownership
     owner = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
@@ -113,7 +113,7 @@ class Campaign(models.Model):
         help_text="Team members assigned to this campaign"
     )
     
-    # Campaign configuration
+    # Campaign settings
     is_active = models.BooleanField(default=True)
     tags = models.JSONField(default=list, blank=True)
     
@@ -133,7 +133,7 @@ class Campaign(models.Model):
         return f"{self.name} ({self.get_status_display()})"
     
     def clean(self):
-        """Custom validation for campaign information"""
+        """Custom validation for campaign data"""
         super().clean()
         
         # Validate date range
@@ -195,7 +195,7 @@ class CampaignAssignment(models.Model):
     Through model for campaign team assignments
     
     This model manages the relationship between campaigns and team members,
-    including role assignments and authorization.
+    including role assignments and permissions.
     """
     
     ROLE_CHOICES = [
@@ -246,12 +246,12 @@ class CampaignMetric(models.Model):
         related_name='metrics'
     )
     
-    # Fundamental metrics
+    # Basic metrics
     impressions = models.PositiveIntegerField(default=0)
     clicks = models.PositiveIntegerField(default=0)
     conversions = models.PositiveIntegerField(default=0)
     
-    # Financial data
+    # Financial metrics
     cost_per_click = models.DecimalField(
         max_digits=8,
         decimal_places=2,
@@ -268,7 +268,7 @@ class CampaignMetric(models.Model):
         default=Decimal('0.00')
     )
     
-    # Computed metrics
+    # Calculated metrics
     click_through_rate = models.DecimalField(
         max_digits=5,
         decimal_places=4,
@@ -282,7 +282,7 @@ class CampaignMetric(models.Model):
         validators=[MinValueValidator(Decimal('0.0000')), MaxValueValidator(Decimal('1.0000'))]
     )
     
-    # Timestamp for when metrics were captured
+    # Timestamp for when metrics were recorded
     recorded_at = models.DateTimeField(auto_now_add=True)
     date = models.DateField(auto_now_add=True)
     
@@ -298,7 +298,7 @@ class CampaignMetric(models.Model):
         return f"{self.campaign.name} - {self.date} ({self.impressions} impressions)"
     
     def save(self, *args, **kwargs):
-        """Calculate computed metrics before saving"""
+        """Calculate derived metrics before saving"""
         if self.impressions > 0:
             self.click_through_rate = Decimal(str(self.clicks / self.impressions))
             if self.clicks > 0:
@@ -312,7 +312,7 @@ class CampaignNote(models.Model):
     Notes and comments for campaigns
     
     This model allows team members to add notes, comments,
-    and observations about campaigns for enhanced collaboration.
+    and observations about campaigns for better collaboration.
     """
     
     campaign = models.ForeignKey(
@@ -336,6 +336,44 @@ class CampaignNote(models.Model):
     
     class Meta:
         ordering = ['-created_at']
+        
+        # Add these classes after CampaignNote
+
+class Organization(models.Model):
+    name = models.CharField(max_length=255)
+    parent_org_id = models.IntegerField(null=True, blank=True)
+    desc = models.TextField(blank=True, null=True)
+    is_parent = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    deleted_at = models.DateTimeField(null=True, blank=True)
+    
+    class Meta:
+        db_table = 'organizations'
+
+class Team(models.Model):
+    name = models.CharField(max_length=255)
+    organization_id = models.IntegerField()
+    desc = models.TextField(blank=True, null=True)
+    parent_team_id = models.IntegerField(null=True, blank=True)
+    is_parent = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    deleted_at = models.DateTimeField(null=True, blank=True)
+    
+    class Meta:
+        db_table = 'teams'
+
+class TeamMember(models.Model):
+    user_id = models.IntegerField()
+    team_id = models.IntegerField()
+    role_id = models.IntegerField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        db_table = 'team_members'
+        unique_together = ['user_id', 'team_id']
     
     def __str__(self):
         return f"{self.title} - {self.campaign.name}" 

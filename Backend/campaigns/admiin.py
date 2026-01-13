@@ -12,7 +12,7 @@ class CampaignAdmin(admin.ModelAdmin):
     Admin interface for Campaign model
     
     Provides comprehensive campaign management with:
-    - List display with key information
+    - List display with key data
     - Filtering and search capabilities
     - Inline editing of related models
     - Custom actions for bulk operations
@@ -35,16 +35,16 @@ class CampaignAdmin(admin.ModelAdmin):
         ('Basic Information', {
             'fields': ('name', 'description', 'campaign_type', 'status')
         }),
-        ('Financial Information', {
+        ('Financial Data', {
             'fields': ('budget', 'spent_amount', 'budget_utilization')
         }),
         ('Timeline', {
             'fields': ('start_date', 'end_date')
         }),
-        ('Team & Settings', {
+        ('Team & Configuration', {
             'fields': ('owner', 'is_active', 'tags')
         }),
-        ('System Information', {
+        ('System Data', {
             'fields': ('id', 'created_at', 'updated_at'),
             'classes': ('collapse',)
         }),
@@ -65,7 +65,7 @@ class CampaignAdmin(admin.ModelAdmin):
     spent_display.admin_order_field = 'spent_amount'
 
     def utilization_display(self, obj):
-        """Display budget utilization with color coding"""
+        """Display budget utilization with color formatting"""
         utilization = obj.budget_utilization
         color = 'red' if utilization > 100 else 'orange' if utilization > 80 else 'green'
         return format_html(
@@ -122,7 +122,7 @@ class CampaignAssignmentAdmin(admin.ModelAdmin):
     readonly_fields = ['assigned_at']
 
     fieldsets = (
-        ('Assignment Information', {
+        ('Assignment Data', {
             'fields': ('campaign', 'user', 'role')
         }),
         ('Status', {
@@ -146,20 +146,20 @@ class CampaignMetricAdmin(admin.ModelAdmin):
     readonly_fields = ['recorded_at', 'click_through_rate', 'conversion_rate']
 
     fieldsets = (
-        ('Campaign Information', {
+        ('Campaign Data', {
             'fields': ('campaign', 'date')
         }),
         ('Performance Metrics', {
             'fields': ('impressions', 'clicks', 'conversions')
         }),
-        ('Financial Metrics', {
+        ('Financial Data', {
             'fields': ('cost_per_click', 'cost_per_impression', 'cost_per_conversion')
         }),
-        ('Calculated Metrics', {
+        ('Computed Metrics', {
             'fields': ('click_through_rate', 'conversion_rate'),
             'classes': ('collapse',)
         }),
-        ('System Information', {
+        ('System Data', {
             'fields': ('recorded_at',),
             'classes': ('collapse',)
         }),
@@ -196,7 +196,7 @@ class CampaignNoteAdmin(admin.ModelAdmin):
     readonly_fields = ['created_at', 'updated_at']
 
     fieldsets = (
-        ('Note Information', {
+        ('Note Data', {
             'fields': ('campaign', 'author', 'title', 'content')
         }),
         ('Privacy', {
@@ -209,7 +209,7 @@ class CampaignNoteAdmin(admin.ModelAdmin):
     )
 
     def get_queryset(self, request):
-        """Filter notes based on user permissions"""
+        """Filter notes based on user authorization"""
         qs = super().get_queryset(request)
         if request.user.is_superuser:
             return qs
