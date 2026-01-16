@@ -56,7 +56,7 @@ export default function FilterPanel({ filters, onFilterChange }) {
             className="text-sm text-gray-500 hover:text-gray-700 flex items-center"
           >
             <XMarkIcon className="h-4 w-4 mr-1" />
-            Clear all
+            Remove all
           </button>
         )}
       </div>

@@ -29,7 +29,7 @@ export default function CampaignModal({ isOpen, onClose, onSubmit, submitting = 
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
     
-    // Clear error when user starts typing
+    // Remove error when user starts typing
     if (errors[name]) {
       setErrors({ ...errors, [name]: null });
     }
@@ -97,7 +97,7 @@ export default function CampaignModal({ isOpen, onClose, onSubmit, submitting = 
       <div className="modal">
         <div className="flex items-center justify-between p-6 border-b border-gray-200">
           <h2 className="text-xl font-semibold text-gray-900">
-            Create Campaign
+            Generate Campaign
           </h2>
           <button
             onClick={onClose}
@@ -239,7 +239,7 @@ export default function CampaignModal({ isOpen, onClose, onSubmit, submitting = 
               className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={submitting}
             >
-              {submitting ? 'Creating...' : 'Create Campaign'}
+              {submitting ? 'Generating...' : 'Generate Campaign'}
             </button>
           </div>
         </form>

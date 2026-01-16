@@ -56,9 +56,9 @@ export default function ConnectionTest() {
       <h2 className="test-title">Connection Test</h2>
       <div className="test-actions">
         <button className="btn btn-primary" onClick={testConnection} disabled={loading}>Test Connection</button>
-        <button className="btn btn-secondary" onClick={fetchData} disabled={loading}>Fetch Data</button>
-        <button className="btn btn-secondary" onClick={createData} disabled={loading}>Create Data</button>
-        <button className="btn btn-secondary" onClick={clearData} disabled={loading}>Clear Data</button>
+        <button className="btn btn-secondary" onClick={fetchData} disabled={loading}>Retrieve Data</button>
+        <button className="btn btn-secondary" onClick={createData} disabled={loading}>Generate Data</button>
+        <button className="btn btn-secondary" onClick={clearData} disabled={loading}>Remove Data</button>
       </div>
       <div className="test-status">Status: {status}</div>
       <div className="test-data">
