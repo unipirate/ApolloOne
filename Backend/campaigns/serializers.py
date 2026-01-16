@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.utils import timezone
 from django.db import models
 from decimal import Decimal
@@ -7,6 +7,8 @@ from .models import (
     Campaign, CampaignAssignment, CampaignMetric, CampaignNote,
     CampaignStatus, CampaignType
 )
+
+User = get_user_model()
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -32,7 +34,7 @@ class CampaignAssignmentSerializer(serializers.ModelSerializer):
     """
     Serializer for CampaignAssignment model
     
-    Handles team member assignments to campaigns with role administration
+    Handles team member assignments to campaigns with role management
     """
     
     user = UserSerializer(read_only=True)
@@ -52,7 +54,7 @@ class CampaignAssignmentSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'assigned_at']
     
     def validate(self, attrs):
-        """Validate assignment information"""
+        """Validate assignment data"""
         campaign = self.context.get('campaign')
         user = attrs.get('user')
         
@@ -76,7 +78,7 @@ class CampaignMetricSerializer(serializers.ModelSerializer):
     """
     Serializer for CampaignMetric model
     
-    Handles campaign performance metrics with automatic computations
+    Handles campaign performance metrics with automatic calculations
     """
     
     class Meta:
@@ -90,7 +92,7 @@ class CampaignMetricSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'click_through_rate', 'conversion_rate', 'recorded_at']
     
     def validate(self, attrs):
-        """Validate metric information"""
+        """Validate metric data"""
         impressions = attrs.get('impressions', 0)
         clicks = attrs.get('clicks', 0)
         conversions = attrs.get('conversions', 0)
@@ -114,7 +116,7 @@ class CampaignNoteSerializer(serializers.ModelSerializer):
     """
     Serializer for CampaignNote model
     
-    Handles campaign notes and comments with privacy settings
+    Handles campaign notes and comments with privacy controls
     """
     
     author = UserSerializer(read_only=True)
@@ -138,7 +140,7 @@ class CampaignListSerializer(serializers.ModelSerializer):
     """
     Serializer for Campaign list view
     
-    Optimized for listing campaigns with essential data
+    Optimized for listing campaigns with essential information
     """
     
     owner = UserSerializer(read_only=True)
@@ -198,7 +200,7 @@ class CampaignDetailSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'created_at', 'updated_at']
     
     def get_notes(self, obj):
-        """Get notes based on user authorization"""
+        """Get notes based on user permissions"""
         user = self.context['request'].user
         notes = obj.notes.filter(is_active=True)
         
@@ -230,7 +232,7 @@ class CampaignCreateSerializer(serializers.ModelSerializer):
     """
     Serializer for creating new campaigns
     
-    Handles campaign creation with proper verification and defaults
+    Handles campaign creation with proper validation and defaults
     """
     
     owner = UserSerializer(read_only=True)
@@ -244,7 +246,7 @@ class CampaignCreateSerializer(serializers.ModelSerializer):
         read_only_fields = ['owner']
     
     def validate(self, attrs):
-        """Validate campaign creation information"""
+        """Validate campaign creation data"""
         start_date = attrs.get('start_date')
         end_date = attrs.get('end_date')
         
@@ -268,7 +270,6 @@ class CampaignCreateSerializer(serializers.ModelSerializer):
         
         # Handle anonymous users by using a default user
         if user.is_anonymous:
-            from django.contrib.auth.models import User
             default_user, created = User.objects.get_or_create(
                 username='default_user',
                 defaults={
@@ -296,7 +297,7 @@ class CampaignUpdateSerializer(serializers.ModelSerializer):
     """
     Serializer for updating campaigns
     
-    Handles campaign updates with status transition verification
+    Handles campaign updates with status transition validation
     """
     
     class Meta:
@@ -318,7 +319,7 @@ class CampaignUpdateSerializer(serializers.ModelSerializer):
         return value
     
     def validate(self, attrs):
-        """Validate update information"""
+        """Validate update data"""
         # Validate budget vs spent amount
         budget = attrs.get('budget', getattr(self.instance, 'budget', None))
         spent_amount = attrs.get('spent_amount', getattr(self.instance, 'spent_amount', None))
@@ -335,7 +336,7 @@ class CampaignStatusUpdateSerializer(serializers.Serializer):
     """
     Serializer for updating campaign status
     
-    Dedicated serializer for status transitions with verification
+    Dedicated serializer for status transitions with validation
     """
     
     status = serializers.ChoiceField(choices=CampaignStatus.choices)

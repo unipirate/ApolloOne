@@ -1,11 +1,12 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils import timezone
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from decimal import Decimal
 import uuid
 
+User = get_user_model()
 
 class CampaignStatus(models.TextChoices):
     """
@@ -26,7 +27,7 @@ class CampaignStatus(models.TextChoices):
 
 class CampaignType(models.TextChoices):
     """
-    Types of advertising campaigns supported by the application
+    Types of advertising campaigns supported by the platform
     """
     DIGITAL_DISPLAY = 'digital_display', 'Digital Display'
     SOCIAL_MEDIA = 'social_media', 'Social Media'
@@ -42,9 +43,9 @@ class Campaign(models.Model):
     """
     Core Campaign model representing advertising campaigns
     
-    This model stores all essential campaign data including:
+    This model stores all essential campaign information including:
     - Basic campaign details (name, description, type)
-    - Financial data (budget, costs)
+    - Financial information (budget, costs)
     - Timeline and scheduling
     - Status and workflow management
     - Team assignments and ownership

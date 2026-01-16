@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from django.views import View
 from django.utils import timezone
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.db.models import Q
 import json
 
@@ -12,6 +12,8 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
 from .models import Organization, Role, Permission, UserRole, RolePermission
+
+User = get_user_model()
 
 
 # original asset view
@@ -29,7 +31,7 @@ class CampaignEditView(View):
 
 @api_view(['GET'])
 def organizations_list(request):
-    """Retrieve organization list"""
+    """fetch organization list"""
     orgs = Organization.objects.filter(is_deleted=False)
     data = [{'id': org.id, 'name': org.name} for org in orgs]
     return Response(data)
@@ -37,7 +39,7 @@ def organizations_list(request):
 
 @api_view(['GET'])
 def teams_list(request):
-    """Retrieve team list - using teams completed by Dev W """
+    """fetch team list - using teams compeleted by Dev W """
     from teams.models import Team as TeamsModel  # import teams
     
     organization_id = request.query_params.get('organization_id')
@@ -65,7 +67,7 @@ def teams_list(request):
 
 @api_view(['GET'])
 def roles_list(request):
-    """Retrieve role lists"""
+    """fetch role lists"""
     roles = Role.objects.filter(is_deleted=False).order_by('level')
     data = []
     for role in roles:
@@ -82,13 +84,13 @@ def roles_list(request):
 
 @api_view(['GET'])
 def permissions_list(request):
-    """Retrieve authorization list"""
+    """fetch permission list"""
     permissions = Permission.objects.filter(is_deleted=False)
     data = []
     for perm in permissions:
         # transfer modules' name to the format expected by frontend
         module_map = {
-            'ASSET': 'Asset Administration',
+            'ASSET': 'Asset Management',
             'CAMPAIGN': 'Campaign Execution', 
             'BUDGET': 'Budget Approval'
         }
@@ -106,7 +108,7 @@ def permissions_list(request):
 
 @api_view(['GET'])
 def role_permissions_list(request):
-    """Retrieve role authorization"""
+    """Fetch rolepermission"""
     role_id = request.query_params.get('role_id')
     
     if role_id:
