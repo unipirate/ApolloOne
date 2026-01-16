@@ -1,5 +1,6 @@
 """
 URL configuration for backend project.
+
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.2/topics/http/urls/
 Examples:
@@ -29,6 +30,7 @@ urlpatterns = [
     path('api/', include('campaigns.urls')),
     path('api/test/', include('test_app.urls')),
     path('health/', health_check, name='health_check'),
+    path('api/access-control/', include('access_control.urls')),
 ]
 
 if settings.DEBUG:

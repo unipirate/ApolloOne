@@ -26,7 +26,7 @@ class CampaignStatus(models.TextChoices):
 
 class CampaignType(models.TextChoices):
     """
-    Types of advertising campaigns supported by the platform
+    Types of advertising campaigns supported by the application
     """
     DIGITAL_DISPLAY = 'digital_display', 'Digital Display'
     SOCIAL_MEDIA = 'social_media', 'Social Media'
@@ -42,11 +42,11 @@ class Campaign(models.Model):
     """
     Core Campaign model representing advertising campaigns
     
-    This model stores all essential campaign information including:
+    This model stores all essential campaign data including:
     - Basic campaign details (name, description, type)
-    - Financial information (budget, costs)
+    - Financial data (budget, costs)
     - Timeline and scheduling
-    - Status and workflow management
+    - Status and workflow administration
     - Team assignments and ownership
     """
     
@@ -75,7 +75,7 @@ class Campaign(models.Model):
         help_text="Current status of the campaign"
     )
     
-    # Financial information
+    # Financial data
     budget = models.DecimalField(
         max_digits=12,
         decimal_places=2,
@@ -113,7 +113,7 @@ class Campaign(models.Model):
         help_text="Team members assigned to this campaign"
     )
     
-    # Campaign settings
+    # Campaign configuration
     is_active = models.BooleanField(default=True)
     tags = models.JSONField(default=list, blank=True)
     
@@ -133,7 +133,7 @@ class Campaign(models.Model):
         return f"{self.name} ({self.get_status_display()})"
     
     def clean(self):
-        """Custom validation for campaign data"""
+        """Custom validation for campaign information"""
         super().clean()
         
         # Validate date range
