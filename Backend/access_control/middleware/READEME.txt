@@ -1,6 +1,6 @@
 # Authorization Middleware
 
-## ⚙️ Configuration
+## ⚙️ Setup
 
 1. **Add middleware to `settings.py`**
 
