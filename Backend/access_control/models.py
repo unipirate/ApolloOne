@@ -43,7 +43,7 @@ class Role(TimeStampedModel):
     name = models.CharField(max_length=100)
     level = models.PositiveIntegerField(
         default=10,
-        help_text="Lower number = higher authorization"
+        help_text="Lower number = higher privilege"
     )
 
     class Meta:
@@ -112,3 +112,10 @@ class UserRole(TimeStampedModel):
 
     class Meta:
         unique_together = ("user", "role", "team")
+
+class PermissionApprover(models.Model):
+    permission = models.ForeignKey(Permission, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('permission', 'user')
