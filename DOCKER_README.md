@@ -36,13 +36,13 @@ chmod +x setup_local_db.sh
 **Option B: Manual setup**
 ```bash
 # Create database
-createdb -U postgres ApolloOne_db
+createdb -U postgres apollone_db
 
 # Create user (optional)
-psql -U postgres -c "CREATE USER ApolloOne_user WITH PASSWORD 'ApolloOne_password';"
+psql -U postgres -c "CREATE USER apollone_user WITH PASSWORD 'apollone_password';"
 
 # Grant privileges
-psql -U postgres -c "GRANT ALL PRIVILEGES ON DATABASE ApolloOne_db TO ApolloOne_user;"
+psql -U postgres -c "GRANT ALL PRIVILEGES ON DATABASE apollone_db TO apollone_user;"
 ```
 
 ### 3. Environment Configuration
@@ -56,7 +56,7 @@ DEBUG=False
 ALLOWED_HOSTS=localhost,127.0.0.1,0.0.0.0
 
 # Local PostgreSQL Settings (for pgAdmin access)
-POSTGRES_DB=ApolloOne_db
+POSTGRES_DB=apollone_db
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=your-local-postgres-password
 POSTGRES_PORT=5432
@@ -72,20 +72,20 @@ NGINX_PORT=80
 #### **Production Deployment:**
 ```bash
 # Build and start all services
-docker-compose up -d --build
+docker compose up -d --build
 
 # Run migrations
-docker-compose exec backend python manage.py migrate
+docker compose exec backend python manage.py migrate
 
 # Create test app migrations
-docker-compose exec backend python manage.py makemigrations test_app
-docker-compose exec backend python manage.py migrate
+docker compose exec backend python manage.py makemigrations test_app
+docker compose exec backend python manage.py migrate
 
 # View logs
-docker-compose logs -f
+docker compose logs -f
 
 # Stop all services
-docker-compose down
+docker compose down
 ```
 
 #### **Development Deployment (with Hot Reloading):**
@@ -283,7 +283,7 @@ docker-compose -f docker-compose.dev.yml up -d --build
 ### **Database Commands:**
 ```bash
 # Access PostgreSQL directly
-psql -U postgres -d ApolloOne_db
+psql -U postgres -d apollone_db
 
 # Run Django shell
 docker-compose exec backend python manage.py shell
@@ -321,7 +321,7 @@ docker-compose ps
 pg_isready -U postgres
 
 # Test connection
-psql -U postgres -d ApolloOne_db -c "SELECT version();"
+psql -U postgres -d apollone_db -c "SELECT version();"
 
 # Check PostgreSQL logs
 # On Windows: Check Event Viewer
