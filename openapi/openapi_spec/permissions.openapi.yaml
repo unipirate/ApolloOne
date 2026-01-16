@@ -1,6 +1,6 @@
 openapi: 3.1.0
 info:
-  title: ApolloOne Permissions & Role Management API
+  title: ApolloOne Permissions & Role Administration API
   version: v1-oas3.1
 servers:
   - description: SwaggerHub API Auto Mocking

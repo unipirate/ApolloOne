@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'test_app',
     'campaigns',
     'access_control',
+    'teams',
 ]
 
 MIDDLEWARE = [
@@ -57,6 +58,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'access_control.middleware.authorization.AuthorizationMiddleware',
 ]
 
 ROOT_URLCONF = 'backend.urls'

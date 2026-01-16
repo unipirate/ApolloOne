@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
-  title: Team Management API
-  description: API for managing teams and team members within organizations
+  title: Team Administration API
+  description: API for administering teams and team members within organizations
   version: 1.0.0
 
 servers:

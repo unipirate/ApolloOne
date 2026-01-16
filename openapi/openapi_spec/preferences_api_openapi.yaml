@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: Media Jira User Preferences and Notification Settings API
+  title: ApolloOne User Preferences and Notification Configuration API
   version: 1.0.0
 tags:
   - name: Preferences
