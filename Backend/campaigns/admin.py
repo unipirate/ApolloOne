@@ -11,7 +11,7 @@ class CampaignAdmin(admin.ModelAdmin):
     """
     Admin interface for Campaign model
     
-    Provides comprehensive campaign management with:
+    Provides comprehensive campaign administration with:
     - List display with key data
     - Filtering and search capabilities
     - Inline editing of related models
@@ -32,7 +32,7 @@ class CampaignAdmin(admin.ModelAdmin):
     date_hierarchy = 'created_at'
 
     fieldsets = (
-        ('Basic Information', {
+        ('Basic Data', {
             'fields': ('name', 'description', 'campaign_type', 'status')
         }),
         ('Financial Data', {

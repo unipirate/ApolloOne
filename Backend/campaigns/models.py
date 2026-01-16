@@ -26,7 +26,7 @@ class CampaignStatus(models.TextChoices):
 
 class CampaignType(models.TextChoices):
     """
-    Types of advertising campaigns supported by the platform
+    Types of advertising campaigns supported by the application
     """
     DIGITAL_DISPLAY = 'digital_display', 'Digital Display'
     SOCIAL_MEDIA = 'social_media', 'Social Media'
@@ -42,9 +42,9 @@ class Campaign(models.Model):
     """
     Core Campaign model representing advertising campaigns
     
-    This model stores all essential campaign information including:
+    This model stores all essential campaign data including:
     - Basic campaign details (name, description, type)
-    - Financial information (budget, costs)
+    - Financial data (budget, costs)
     - Timeline and scheduling
     - Status and workflow management
     - Team assignments and ownership

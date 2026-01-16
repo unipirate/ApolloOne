@@ -1,6 +1,6 @@
 # campaigns/team_api/constants.py
 """
-Team role constants for team member management
+Team role constants for team member administration
 """
 
 class TeamRole:
@@ -26,5 +26,5 @@ class TeamRole:
     
     @classmethod
     def can_manage_team(cls, role_id):
-        """Check if role can manage team members"""
+        """Check if role can administer team members"""
         return role_id == cls.LEADER

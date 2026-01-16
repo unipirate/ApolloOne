@@ -34,7 +34,7 @@ class OpenAPIDocumentationView(APIView):
     """
     OpenAPI 3.0 Documentation endpoint
     
-    Provides the complete OpenAPI specification for the Campaign Management API
+    Provides the complete OpenAPI specification for the Campaign Administration API
     """
     
     permission_classes = [AllowAny]  # No authentication required for API docs

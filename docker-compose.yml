@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   backend:
-    build: ./backend
+    build: ./Backend
     container_name: backend
     restart: always
     expose:
@@ -16,14 +16,14 @@ services:
 
   frontend:
     build:
-      context: ./frontend
+      context: ./Frontend
       dockerfile: Dockerfile
     container_name: frontend
     restart: always
     expose:
       - "3000"
     volumes:
-      - ./frontend:/app
+      - ./Frontend:/app
       - /app/node_modules
       - /app/.next
     environment:

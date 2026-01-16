@@ -3,7 +3,7 @@ version: "3.8"
 services:
   # Django Backend (Development)
   backend:
-    build: ./backend
+    build: ./Backend
     container_name: backend-dev
     restart: always
     ports:
@@ -16,19 +16,19 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     volumes:
-      - ./backend:/app
+      - ./Backend:/app
 
   # Next.js Frontend (Development)
   frontend:
     build:
-      context: ./frontend
+      context: ./Frontend
       dockerfile: Dockerfile
     container_name: frontend-dev
     restart: always
     ports:
       - "3000:3000"
     volumes:
-      - ./frontend:/app
+      - ./Frontend:/app
       - /app/node_modules
       - /app/.next
     environment:

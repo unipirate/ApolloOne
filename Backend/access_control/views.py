@@ -29,7 +29,7 @@ class CampaignEditView(View):
 
 @api_view(['GET'])
 def organizations_list(request):
-    """fetch organization list"""
+    """Retrieve organization list"""
     orgs = Organization.objects.filter(is_deleted=False)
     data = [{'id': org.id, 'name': org.name} for org in orgs]
     return Response(data)
@@ -37,7 +37,7 @@ def organizations_list(request):
 
 @api_view(['GET'])
 def teams_list(request):
-    """fetch team list - using teams compeleted by Dev W """
+    """Retrieve team list - using teams completed by Dev W """
     from teams.models import Team as TeamsModel  # import teams
     
     organization_id = request.query_params.get('organization_id')
@@ -65,7 +65,7 @@ def teams_list(request):
 
 @api_view(['GET'])
 def roles_list(request):
-    """fetch role lists"""
+    """Retrieve role lists"""
     roles = Role.objects.filter(is_deleted=False).order_by('level')
     data = []
     for role in roles:
@@ -82,13 +82,13 @@ def roles_list(request):
 
 @api_view(['GET'])
 def permissions_list(request):
-    """fetch permission list"""
+    """Retrieve authorization list"""
     permissions = Permission.objects.filter(is_deleted=False)
     data = []
     for perm in permissions:
         # transfer modules' name to the format expected by frontend
         module_map = {
-            'ASSET': 'Asset Management',
+            'ASSET': 'Asset Administration',
             'CAMPAIGN': 'Campaign Execution', 
             'BUDGET': 'Budget Approval'
         }
@@ -106,7 +106,7 @@ def permissions_list(request):
 
 @api_view(['GET'])
 def role_permissions_list(request):
-    """Fetch rolepermission"""
+    """Retrieve role authorization"""
     role_id = request.query_params.get('role_id')
     
     if role_id:
