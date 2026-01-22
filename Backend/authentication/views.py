@@ -43,6 +43,7 @@ class RegisterView(APIView):
 
         verification_token = str(uuid.uuid4())
         user = User.objects.create_user(
+            username=username,
             email=email,
             password=password,
             is_verified=False,
@@ -183,10 +184,11 @@ class SsoCallbackView(APIView):
             "user": profile_data
         }, status=status.HTTP_200_OK)
 
+
 class MeView(APIView):
+    """Get current logged-in user's data"""
     permission_classes = [IsAuthenticated]
     
     def get(self, request):
-        """Get current user profile data"""
         profile_data = UserProfileSerializer(request.user).data
         return Response(profile_data, status=status.HTTP_200_OK)
