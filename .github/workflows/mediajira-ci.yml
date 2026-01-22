@@ -1,4 +1,4 @@
-name: MediaJira CI/CD Pipeline
+name: ApolloOne CI/CD Pipeline
 
 on:
   push:
@@ -29,7 +29,7 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         context: ./backend
-        tags: mediajira-backend:${{ github.sha }}
+        tags: apolloone-backend:${{ github.sha }}
         load: true
         cache-from: type=local,src=/tmp/.buildx-cache
         cache-to: type=local,dest=/tmp/.buildx-cache
@@ -39,7 +39,7 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         context: ./frontend
-        tags: mediajira-frontend:${{ github.sha }}
+        tags: apolloone-frontend:${{ github.sha }}
         load: true
         cache-from: type=local,src=/tmp/.buildx-cache
         cache-to: type=local,dest=/tmp/.buildx-cache
@@ -55,7 +55,7 @@ jobs:
       run: |
         cat > .env << EOF
         SECRET_KEY=test-secret-key-for-ci-${{ github.sha }}
-        POSTGRES_DB=mediajira_test_db
+        POSTGRES_DB=apolloone_test_db
         POSTGRES_USER=postgres
         POSTGRES_PASSWORD=test_password
         POSTGRES_PORT=5432
